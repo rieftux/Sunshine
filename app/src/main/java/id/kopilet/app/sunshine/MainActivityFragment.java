@@ -18,6 +18,7 @@ import java.util.List;
 public class MainActivityFragment extends Fragment {
 
     private Context mContext;
+    private ArrayAdapter<String> weekForecastAdapter;
 
     public MainActivityFragment() {
 
@@ -44,7 +45,7 @@ public class MainActivityFragment extends Fragment {
         weekForecastString.add("Raining - 23 - 5-4-16");
         weekForecastString.add("Hot - 27 - 6-4-16");
 
-        ArrayAdapter<String> weekForecastAdapter = new ArrayAdapter<String>(mContext,
+        weekForecastAdapter = new ArrayAdapter<String>(mContext,
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
                 weekForecastString);
