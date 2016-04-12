@@ -52,7 +52,7 @@ public class MainActivityFragment extends Fragment {
 
         ListView listViewForecast = (ListView) rootView.findViewById(R.id.listview_forecast);
 
-        mWeekForecastAdapter = new ArrayAdapter<String>(mContext,
+        mWeekForecastAdapter = new ArrayAdapter<>(mContext,
                 R.layout.list_item_forecast,
                 R.id.list_item_forecast_textview,
                 mWeekForecastList);
@@ -75,7 +75,7 @@ public class MainActivityFragment extends Fragment {
                 .create(WeatherService.OpenWeatherMap.class);
 
         Call<ApiResponse> listCall = service.getWeather("Bandung",
-                7, "0259fb6b6603b0171e464769fa223449");
+                7, BuildConfig.OPEN_WEATHER_MAP_API_KEY);
 
         listCall.enqueue(new Callback<ApiResponse>() {
             @Override
