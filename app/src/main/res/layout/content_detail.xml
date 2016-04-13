@@ -1,10 +1,10 @@
-<fragment
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/fragment_list_forecast"
-    android:name="id.kopilet.app.sunshine.ListForecastFragment"
+    android:id="@+id/container_detail_weather"
+    android:name="id.kopilet.app.sunshine.DetailActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:layout="@layout/fragment_main"/>
+    tools:ignore="MergeRootFrame" />

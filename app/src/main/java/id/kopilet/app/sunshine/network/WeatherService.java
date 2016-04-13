@@ -16,9 +16,10 @@ public final class WeatherService {
 
     public interface OpenWeatherMap {
 
-        @GET("daily?mode=json&units=metric")
+        @GET("daily?mode=json")
         Call<ApiResponse> getWeather(
                 @Query("q") String city,
+                @Query("units") String units,
                 @Query("cnt") int count,
                 @Query("APPID") String appid);
     }
