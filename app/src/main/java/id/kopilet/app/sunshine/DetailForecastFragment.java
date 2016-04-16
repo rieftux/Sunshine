@@ -1,5 +1,6 @@
 package id.kopilet.app.sunshine;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,18 +15,34 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import id.kopilet.app.sunshine.model.WeatherRealm;
+import id.kopilet.app.sunshine.utils.DataManager;
+import id.kopilet.app.sunshine.utils.Utility;
+
 /**
  * A placeholder fragment containing a simple view.
  */
 public class DetailForecastFragment extends Fragment {
 
+    protected MyApplication app;
+
     private static final String LOG_TAG = DetailForecastFragment.class.getSimpleName();
+
+    private Context mContext;
 
     private static final String FORECAST_SHARE_HASHTAG = " #SunshineApp";
     private String mForecast;
     private ShareActionProvider mShareActionProvider;
 
     public DetailForecastFragment() {
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mContext = getActivity();
+        app = (MyApplication) mContext.getApplicationContext();
         setHasOptionsMenu(true);
     }
 
@@ -67,7 +84,16 @@ public class DetailForecastFragment extends Fragment {
         TextView mTxtDetailForecast = (TextView) rootView.findViewById(R.id.txt_detail_forecast);
 
         if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
-            mForecast = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+            int position = intent.getIntExtra(Intent.EXTRA_TEXT, 0);
+            //            mForecast = intent.getStringExtra(Intent.EXTRA_TEXT);
+
+
+//            WeatherRealm weather = DataManager.findWeatherAt(mContext, position);
+            WeatherRealm weather = DataManager.findWeatherAt(position);
+            mForecast = Utility.getReadableDateString(weather.getDt()) + " - " + weather.getWeather().get(0).getMain()
+                    + " - " + Utility.formatHighLows(weather.getTemp().getMax(), weather.getTemp().getMin());
+
             mTxtDetailForecast.setText(mForecast);
         }
 

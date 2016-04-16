@@ -7,4 +7,8 @@
         android:title="@string/action_refresh"
         app:showAsAction="never" />
 
+    <item
+        android:id="@+id/action_load_db"
+        android:title="@string/action_load_db"
+        app:showAsAction="never" />
 </menu>

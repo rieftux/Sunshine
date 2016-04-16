@@ -9,6 +9,7 @@
     <string name="action_map">Map Location</string>
     <string name="action_share">Share</string>
     <string name="action_refresh" translatable="false">Refresh</string>
+    <string name="action_load_db" translatable="false">Load DB</string>
 
     <!-- Label for the location preference [CHAR LIMIT=30] -->
     <string name="pref_location_label">Location</string>
