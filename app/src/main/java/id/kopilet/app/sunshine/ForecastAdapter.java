@@ -1,7 +1,6 @@
 package id.kopilet.app.sunshine;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,15 +55,16 @@ public class ForecastAdapter extends ArrayAdapter<WeatherRealm> {
 
         if (convertView == null) {
             //inflate the layout
-            /*convertView = mInflater.inflate(R.layout.list_item_forecast,
-                    parent, false);*/
-
-            convertView = mInflater.inflate(mResLayout,
+            convertView = mInflater.inflate(R.layout.list_item_forecast,
                     parent, false);
+
+            /*convertView = mInflater.inflate(mResLayout,
+                    parent, false);*/
 
             //set up viewHolder
             holder = new ForecastHolder();
-            holder.txtForecast = (TextView) convertView.findViewById(R.id.txtview_forecast);
+            holder.txtHari = (TextView) convertView.findViewById(R.id.txtview_hari);
+            holder.txtSuhu = (TextView) convertView.findViewById(R.id.txtview_suhu);
             //store the holder with the view
             convertView.setTag(holder);
         } else {
@@ -74,20 +74,19 @@ public class ForecastAdapter extends ArrayAdapter<WeatherRealm> {
         }
 
         WeatherRealm item = mWeatherRealmList.get(position);
-        String weatherString = Utility.getReadableDateString(item.getDt()) + " - " + item.getWeather().get(0).getMain()
-                + " - " + Utility.formatHighLows(item.getTemp().getMax(), item.getTemp().getMin());
 
-        Log.v("List Adapter", weatherString);
+        String hari = Utility.getReadableDateString(item.getDt());
+        String suhu = Utility.formatHighLows(item.getTemp().getMax(), item.getTemp().getMin());
 
-        holder.txtForecast.setText(weatherString);
+        holder.txtHari.setText(hari);
+        holder.txtSuhu.setText(suhu);
 
         return convertView;
     }
 
-
     // ViewHolder
-
     private static class ForecastHolder {
-        TextView txtForecast;
+        TextView txtHari;
+        TextView txtSuhu;
     }
 }

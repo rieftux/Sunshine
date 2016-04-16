@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import java.util.ArrayList;
@@ -36,15 +35,12 @@ public class ListForecastFragment extends Fragment {
 
     private Context mContext;
 
-    private ArrayAdapter<String> mWeekForecastAdapter;
-    private List<String> mWeekForecastList = new ArrayList<>();
-
     private Realm mRealm;
 
     private ListView listViewForecast;
 
     private ForecastAdapter mForecastAdapter;
-    private List<WeatherRealm> mWeatherRealmsList;
+    private List<WeatherRealm> mWeatherRealmsList = new ArrayList<>();
 
     public ListForecastFragment() {
 
@@ -85,30 +81,11 @@ public class ListForecastFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
 
-//        final ListView listViewForecast = (ListView) rootView.findViewById(R.id.listview_forecast);
-
         listViewForecast = (ListView) rootView.findViewById(R.id.listview_forecast);
 
-        List<String> weekForecastString = new ArrayList<>();
-        weekForecastString.add("Raining - 25 - 2-4-16");
-        weekForecastString.add("Raining - 20 - 3-4-16");
-        weekForecastString.add("Raining - 22 - 4-4-16");
-        weekForecastString.add("Hot - 27 - 5-4-16");
-        weekForecastString.add("Very Hot - 30 - 6-4-16");
-        weekForecastString.add("Very Hot - 33 - 7-4-16");
-        weekForecastString.add("Very Hot - 33 - 8-4-16");
+//        mForecastAdapter = new ForecastAdapter(mContext, R.layout.list_item_forecast);
 
-        mWeekForecastAdapter = new ArrayAdapter<>(mContext,
-                R.layout.list_item_forecast,
-                R.id.txtview_forecast,
-                weekForecastString);
-
-
-//        mForecastAdapter = new ForecastAdapter(mContext, mWeatherRealmResults, true);
-
-        mForecastAdapter = new ForecastAdapter(mContext, R.layout.list_item_forecast);
-
-//        listViewForecast.setAdapter(mWeekForecastAdapter);
+        mForecastAdapter = new ForecastAdapter(mContext, 0, mWeatherRealmsList);
 
         listViewForecast.setAdapter(mForecastAdapter);
 
@@ -128,13 +105,15 @@ public class ListForecastFragment extends Fragment {
     @Override
     public void onStart() {
         super.onStart();
-        updateData();
+        mRealm = Realm.getDefaultInstance();
+//        updateData();
+        loadDatabase();
     }
 
     @Override
     public void onStop() {
         super.onStop();
-        mRealm.close();
+//        mRealm.close();
     }
 
     private void updateData() {
@@ -149,12 +128,15 @@ public class ListForecastFragment extends Fragment {
 
         FetchData fetchData = new FetchData();
         fetchData.getWeatherData(location, unit);
+
     }
 
     private void loadDatabase() {
 
         Log.v(LOG_TAG, "LoadFromDatabase");
+
         mForecastAdapter.clear();
+        mWeatherRealmsList.clear();
 
         DataManager dataManager = new DataManager();
 
@@ -163,20 +145,22 @@ public class ListForecastFragment extends Fragment {
 
             mWeatherRealmsList = contents.first().getList();
 
-//            mWeatherRealmsList = new ArrayList<>(contents.first().getList());
-
             for (WeatherRealm w : mWeatherRealmsList) {
                 String weatherString = Utility.getReadableDateString(w.getDt()) + " - " + w.getWeather().get(0).getMain()
                         + " - " + Utility.formatHighLows(w.getTemp().getMax(), w.getTemp().getMin());
                 Log.v(LOG_TAG, "Data: " + weatherString);
             }
 
-            mForecastAdapter.setData(mWeatherRealmsList);
-            mForecastAdapter.notifyDataSetChanged();
+//            mForecastAdapter.setData(mWeatherRealmsList);
+            mForecastAdapter = new ForecastAdapter(mContext, 0, mWeatherRealmsList);
+//            mForecastAdapter.notifyDataSetChanged();
+
+            listViewForecast.setAdapter(mForecastAdapter);
 
             Log.v(LOG_TAG, "Success LoadFromDB");
         } else {
             Log.v(LOG_TAG, "Fail LoadFromDB");
+            updateData();
         }
 
     }

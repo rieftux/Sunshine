@@ -3,15 +3,9 @@ package id.kopilet.app.sunshine;
 import android.content.Context;
 import android.util.Log;
 
-import java.util.List;
-
 import id.kopilet.app.sunshine.model.ApiContent;
-import id.kopilet.app.sunshine.model.WeatherRealm;
 import id.kopilet.app.sunshine.network.WeatherService;
-import id.kopilet.app.sunshine.utils.DataManager;
-import id.kopilet.app.sunshine.utils.Utility;
 import io.realm.Realm;
-import io.realm.RealmResults;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -64,23 +58,23 @@ public class FetchData {
                             // Transaction was a success.
                             Log.v(LOG_TAG, "SUCCESS REALM TRX");
 
-                            DataManager manager = new DataManager();
+                    /*        DataManager manager = new DataManager();
                             RealmResults<ApiContent> resultRealm = manager.dataAll();
                             List<WeatherRealm> list = resultRealm.first().getList();
                             for (WeatherRealm w : list) {
                                 String weatherString = Utility.getReadableDateString(w.getDt()) + " - " + w.getWeather().get(0).getMain()
                                         + " - " + Utility.formatHighLows(w.getTemp().getMax(), w.getTemp().getMin());
                                 Log.v(LOG_TAG, "Data realm: " + weatherString);
-                            }
+                            }*/
 
-                            mRealm.close();
+//                            mRealm.close();
                         }
                     }, new Realm.Transaction.OnError() {
                         @Override
                         public void onError(Throwable error) {
                             // Transaction failed and was automatically canceled.
                             Log.v(LOG_TAG, "ERROR TRX: " + error.getMessage());
-                            mRealm.close();
+//                            mRealm.close();
                         }
                     });
 

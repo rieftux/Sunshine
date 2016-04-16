@@ -49,14 +49,11 @@ public class DataManager {
     }
 
     public static WeatherRealm findWeatherAt(int idx) {
-//        Realm realm = Realm.getInstance(context);
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<WeatherRealm> situations = realm.allObjects(WeatherRealm.class);
-        situations.sort("id");
-        if (situations.size() <= idx) {
-            return null;
-        }
-        return situations.get(idx);
+        RealmResults<ApiContent> results = realm.where(ApiContent.class).findAll();
+        WeatherRealm singleWeather = results.first().getList().get(idx);
+
+        return  singleWeather;
     }
 
 

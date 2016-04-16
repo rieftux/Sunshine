@@ -88,8 +88,6 @@ public class DetailForecastFragment extends Fragment {
             int position = intent.getIntExtra(Intent.EXTRA_TEXT, 0);
             //            mForecast = intent.getStringExtra(Intent.EXTRA_TEXT);
 
-
-//            WeatherRealm weather = DataManager.findWeatherAt(mContext, position);
             WeatherRealm weather = DataManager.findWeatherAt(position);
             mForecast = Utility.getReadableDateString(weather.getDt()) + " - " + weather.getWeather().get(0).getMain()
                     + " - " + Utility.formatHighLows(weather.getTemp().getMax(), weather.getTemp().getMin());
